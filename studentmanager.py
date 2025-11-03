@@ -28,7 +28,7 @@ class StudentManager:
                 df['roll_no'] = df['roll_no'].fillna(-1).astype(int)
                 return df
             except Exception as e:
-                print(f"⚠️ Error reading file {self.file_name}: {e}. Starting with an empty roster.")
+                print(f" Error reading file {self.file_name}: {e}. Starting with an empty roster.")
 
         # Create a new empty DataFrame if loading failed or file doesn't exist
         return pd.DataFrame(columns=COLUMNS)
@@ -40,7 +40,7 @@ class StudentManager:
                 self.students_df.to_excel(writer, sheet_name=self.sheet_name, index=False)
             print(f"Data saved successfully to {self.file_name}.")
         except Exception as e:
-            print(f"❌ Error saving data to Excel: {e}")
+            print(f" Error saving data to Excel: {e}")
 
     def _get_integer_input(self, prompt, min_val=None, max_val=None):
         """Handles integer input validation."""
@@ -48,14 +48,14 @@ class StudentManager:
             try:
                 value = int(input(prompt))
                 if min_val is not None and value < min_val:
-                    print(f"❌ Value must be at least {min_val}.")
+                    print(f" Value must be at least {min_val}.")
                     continue
                 if max_val is not None and value > max_val:
-                    print(f"❌ Value cannot exceed {max_val}.")
+                    print(f" Value cannot exceed {max_val}.")
                     continue
                 return value
             except ValueError:
-                print("❌ Invalid input. Please enter a whole number.")
+                print(" Invalid input. Please enter a whole number.")
 
     def _apply_class_label(self, df):
         """Adds a 'class' column to a DataFrame copy based on marks."""
@@ -77,13 +77,13 @@ class StudentManager:
         print("\n--- Add New Student ---")
         name = input("Enter student name: ").strip()
         if not name:
-            print("❌ Student name cannot be empty.")
+            print(" Student name cannot be empty.")
             return
 
         while True:
             roll_no = self._get_integer_input("Enter roll number: ")
             if roll_no in self.students_df['roll_no'].values:
-                print(f"❌ Error: Roll number {roll_no} already exists.")
+                print(f" Error: Roll number {roll_no} already exists.")
             else:
                 break
 
@@ -93,7 +93,7 @@ class StudentManager:
         self.students_df = pd.concat([self.students_df, new_row], ignore_index=True)
         
         self._save_data()
-        print("✅ Student added successfully.")
+        print(" Student added successfully.")
 
     def view_students(self):
         """Prints all student records from the DataFrame."""
@@ -117,7 +117,7 @@ class StudentManager:
         
         if not result.empty:
             result_with_class = self._apply_class_label(result.copy())
-            print(f"\n✅ Student Found (Roll No: {roll_no}):")
+            print(f"\n Student Found (Roll No: {roll_no}):")
             print(result_with_class.to_string(index=False, header=True))
         else:
             print(f"Student with roll number {roll_no} not found.")
@@ -129,7 +129,7 @@ class StudentManager:
         index_to_update = self.students_df[self.students_df['roll_no'] == roll_no].index
         
         if index_to_update.empty:
-            print(f"❌ Student with roll number {roll_no} not found.")
+            print(f" Student with roll number {roll_no} not found.")
             return
 
         print("\nCurrent Record:")
@@ -143,16 +143,16 @@ class StudentManager:
             new_name = input("Enter new name: ").strip()
             if new_name:
                 self.students_df.loc[index_to_update, 'name'] = new_name
-                print("✅ Name updated.")
+                print(" Name updated.")
             else:
-                print("❌ Name update cancelled (Name cannot be empty).")
+                print(" Name update cancelled (Name cannot be empty).")
                 return
         elif choice == '2':
             new_marks = self._get_integer_input("Enter new marks (0-100): ", min_val=0, max_val=100)
             self.students_df.loc[index_to_update, 'marks'] = new_marks
-            print("✅ Marks updated.")
+            print(" Marks updated.")
         else:
-            print("❌ Invalid choice. Update cancelled.")
+            print(" Invalid choice. Update cancelled.")
             return
 
         self._save_data()
@@ -168,7 +168,7 @@ class StudentManager:
         self.students_df = self.students_df[self.students_df['roll_no'] != roll_no_to_delete]
         
         self._save_data()
-        print(f"✅ Student with roll number {roll_no_to_delete} deleted.")
+        print(f" Student with roll number {roll_no_to_delete} deleted.")
 
     def generate_report(self):
         """Calculates, classifies, and displays basic statistics on student marks."""
@@ -232,7 +232,7 @@ def menu(manager):
         elif choice == '6':
             manager.generate_report()
         elif choice == '7':
-            print("Exiting application. Goodbye! 👋")
+            print("Exiting application. Goodbye! ")
             break
         else:
             print("Invalid choice. Please select a number from the menu.")
@@ -243,4 +243,5 @@ if __name__ == "__main__":
     student_manager = StudentManager(FILE_NAME, SHEET_NAME)
     
     # Start the application menu, passing the object
+
     menu(student_manager)
