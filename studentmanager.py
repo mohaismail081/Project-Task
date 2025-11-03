@@ -207,7 +207,7 @@ class StudentManager:
 
 def menu(manager):
     """Main application loop, interacting with the StudentManager object."""
-    print("Welcome to the OOP-Enhanced Student Management System!")
+    print("Welcome to the Student Management System!")
     while True:
         print("\n--- Menu ---")
         print("1. Add Student (Create)")
@@ -245,3 +245,4 @@ if __name__ == "__main__":
     # Start the application menu, passing the object
 
     menu(student_manager)
+
